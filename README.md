@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d6eeab9c-f776-4dd6-b0b2-d2d129c879ee/deploy-status)](https://app.netlify.com/sites/underbelly-foos/deploys)
+
 # TableChamp
 
 **Tablesports leaderboard app**
