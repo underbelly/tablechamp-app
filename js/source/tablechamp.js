@@ -478,7 +478,7 @@
                 "forText" : i18n.app.stats.forText,
                 "name" : localData.playersByKey[thisKey].name,
                 "playerStats" : i18n.app.stats.playerStats,
-                "avatar": i18n.app.stats.avatar || ''
+                "avatar": localData.playersByKey[thisKey].avatar || ''
             }));
             // Player stats
             var doublesPlayed = localData.playersByKey[thisKey].doubles_lost + localData.playersByKey[thisKey].doubles_won;
