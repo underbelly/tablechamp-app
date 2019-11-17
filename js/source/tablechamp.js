@@ -365,7 +365,7 @@
                 'deleteLink': i18n.app.playersRow.deleteLink,
                 'key': playersArray[i].key,
                 'playerName': playersArray[i].name,
-                'playerStatus': (playersArray[i].status) ? 'Active' : 'Inactive'
+                'playerStatus': (playersArray[i].status) ? 'Active' : 'Inactive',
                 'avatar': playersArray[i].avatar
             });
         }
