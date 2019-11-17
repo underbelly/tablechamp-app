@@ -1363,7 +1363,8 @@
                     "singles_lost": 0,
                     "singles_points": 100,
                     "singles_won": 0,
-                    "status": true 
+                    "status": true,
+                    "slack_user": ''  // Added this to see if it auto updates in the db
                 }).then(function() {
                     playerSettingsUpdate();
                     messageShow('success', i18n.app.messages.playerAdded, true);
