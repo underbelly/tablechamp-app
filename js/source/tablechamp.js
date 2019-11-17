@@ -366,6 +366,7 @@
                 'key': playersArray[i].key,
                 'playerName': playersArray[i].name,
                 'playerStatus': (playersArray[i].status) ? 'Active' : 'Inactive'
+                'avatar': playersArray[i].avatar
             });
         }
         $('.players-list').html(playerSettingsUi);
