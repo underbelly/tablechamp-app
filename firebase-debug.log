@@ -1,22 +1,22 @@
-[debug] [2019-11-19T23:21:07.075Z] ----------------------------------------------------------------------
-[debug] [2019-11-19T23:21:07.076Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve --only hosting
-[debug] [2019-11-19T23:21:07.077Z] CLI Version:   7.7.0
-[debug] [2019-11-19T23:21:07.077Z] Platform:      darwin
-[debug] [2019-11-19T23:21:07.077Z] Node Version:  v10.15.3
-[debug] [2019-11-19T23:21:07.078Z] Time:          Tue Nov 19 2019 16:21:07 GMT-0700 (Mountain Standard Time)
-[debug] [2019-11-19T23:21:07.078Z] ----------------------------------------------------------------------
-[debug] [2019-11-19T23:21:07.078Z] 
+[debug] [2019-11-21T22:28:26.493Z] ----------------------------------------------------------------------
+[debug] [2019-11-21T22:28:26.495Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve --only hosting
+[debug] [2019-11-21T22:28:26.495Z] CLI Version:   7.7.0
+[debug] [2019-11-21T22:28:26.495Z] Platform:      darwin
+[debug] [2019-11-21T22:28:26.495Z] Node Version:  v10.15.3
+[debug] [2019-11-21T22:28:26.497Z] Time:          Thu Nov 21 2019 15:28:26 GMT-0700 (Mountain Standard Time)
+[debug] [2019-11-21T22:28:26.497Z] ----------------------------------------------------------------------
+[debug] [2019-11-21T22:28:26.497Z] 
 [warn] ⚠  Deprecation Warning: Firebase Hosting configuration should be moved under "hosting" key.
-[debug] [2019-11-19T23:21:07.089Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2019-11-19T23:21:07.089Z] > authorizing via signed-in user
-[debug] [2019-11-19T23:21:07.089Z] [iam] checking project tablechamp-444aa for permissions ["firebase.projects.get"]
-[debug] [2019-11-19T23:21:07.090Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/tablechamp-444aa:testIamPermissions  
+[debug] [2019-11-21T22:28:26.511Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-11-21T22:28:26.511Z] > authorizing via signed-in user
+[debug] [2019-11-21T22:28:26.511Z] [iam] checking project tablechamp-444aa for permissions ["firebase.projects.get"]
+[debug] [2019-11-21T22:28:26.513Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/tablechamp-444aa:testIamPermissions  
 
-[debug] [2019-11-19T23:21:07.362Z] <<< HTTP RESPONSE 200
-[debug] [2019-11-19T23:21:07.365Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/tablechamp-444aa  
+[debug] [2019-11-21T22:28:26.767Z] <<< HTTP RESPONSE 200
+[debug] [2019-11-21T22:28:26.769Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/tablechamp-444aa  
  
-[debug] [2019-11-19T23:21:07.606Z] <<< HTTP RESPONSE 200
-[debug] [2019-11-19T23:21:07.608Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/tablechamp-444aa/webApps/-/config  
+[debug] [2019-11-21T22:28:27.072Z] <<< HTTP RESPONSE 200
+[debug] [2019-11-21T22:28:27.074Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/tablechamp-444aa/webApps/-/config  
  
-[debug] [2019-11-19T23:21:08.100Z] <<< HTTP RESPONSE 200
+[debug] [2019-11-21T22:28:27.522Z] <<< HTTP RESPONSE 200
 [info] ✔  hosting: Local server: http://localhost:5000

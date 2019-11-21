@@ -531,13 +531,13 @@
     $(".doubles .top-rankings").html(doublesTopRankings);
     $(".doubles .rankings").html(doublesRankings);
   }
-  function rankingsEvents() {
+  const rankingsEvents = () => {
     // Show stats
     $(".ranking").on("click", function() {
       // Hide sidebar if it's showing
       $("body").removeClass("show-sidebar");
       // Player key
-      var thisKey = $(this).data("id");
+      const thisKey = $(this).data("id");
       // Show stats modal
       modalShow();
       $(".modal").html(
@@ -549,10 +549,10 @@
         })
       );
       // Player stats
-      var doublesPlayed =
+      const doublesPlayed =
         localData.playersByKey[thisKey].doubles_lost +
         localData.playersByKey[thisKey].doubles_won;
-      var singlesPlayed =
+      const singlesPlayed =
         localData.playersByKey[thisKey].singles_lost +
         localData.playersByKey[thisKey].singles_won;
       $(".stats-player").html(
@@ -562,21 +562,24 @@
           doubles_played: doublesPlayed,
           doubles_rank: localData.playersByKey[thisKey].doubles_rank,
           doubles_won: localData.playersByKey[thisKey].doubles_won,
+          doubles_goals: localData.playersByKey[thisKey].doubles_goals,
           gamesLost: i18n.app.statsPlayer.gamesLost,
           gamesPlayed: i18n.app.statsPlayer.gamesPlayed,
           gamesWon: i18n.app.statsPlayer.gamesWon,
+          goalsScored: i18n.app.statsPlayer.goalsScored,
           ranking: i18n.app.statsPlayer.ranking,
           singles: i18n.app.statsPlayer.singles,
           singles_lost: localData.playersByKey[thisKey].singles_lost,
           singles_played: singlesPlayed,
           singles_rank: localData.playersByKey[thisKey].singles_rank,
-          singles_won: localData.playersByKey[thisKey].singles_won
+          singles_won: localData.playersByKey[thisKey].singles_won,
+          singles_goals: localData.playersByKey[thisKey].singles_goals
         })
       );
       // Player games stats
-      var lastTwentyGames = "";
-      var lastTwentyGamesData = [];
-      var playersGames = {};
+      let lastTwentyGames = "";
+      const lastTwentyGamesData = [];
+      let playersGames = {};
       fbdb
         .ref("/playersgame/" + thisKey)
         .limitToLast(20)
@@ -584,7 +587,7 @@
         .then(function(snapshot) {
           playersGames = snapshot.val();
           // To array
-          for (var key in playersGames) {
+          for (let key in playersGames) {
             lastTwentyGamesData.unshift({
               dt: playersGames[key].dt,
               key: key,
@@ -598,9 +601,9 @@
             });
           }
           // Iterate through array
-          for (var i = 0; i < lastTwentyGamesData.length; i++) {
+          for (let i = 0; i < lastTwentyGamesData.length; i++) {
             // Game status
-            var gameStatus = "Lost";
+            let gameStatus = "Lost";
             if (lastTwentyGamesData[i].won) {
               gameStatus = "Won";
             }
@@ -611,9 +614,9 @@
               continue;
             }
             // Players
-            var t1 =
+            let t1 =
               localData.playersByKey[lastTwentyGamesData[i].t1p1].name || "";
-            var t2 =
+            let t2 =
               localData.playersByKey[lastTwentyGamesData[i].t2p1].name || "";
             if (lastTwentyGamesData[i].t1p2) {
               if (!localData.playersByKey[lastTwentyGamesData[i].t1p2]) {
@@ -652,7 +655,7 @@
           console.log(error);
         });
     });
-  }
+  };
   function rankingMovementStyles(movement) {
     if (movement > 0) {
       movement = '<span class="movement-positive">+ ' + movement + "</span>";
@@ -1351,7 +1354,7 @@
     wonGame
   ) {
     // Save "players" data
-    var playersData = {};
+    const playersData = {};
     playersData[type + "_points"] = points;
     playersData[type + "_last_movement"] = movement;
     playersData[type + "_lost"] = lost;
@@ -1368,7 +1371,7 @@
         console.log("Failed to update players data");
       });
     // Save "players_game" data
-    var playersGameData = {
+    const playersGameData = {
       dt: Date.now(),
       game: gameKey,
       player: key,
@@ -1387,7 +1390,7 @@
       console.log(playersGameData);
       console.log("----");
     }
-    var newPlayersGameKey = fbdb
+    const newPlayersGameKey = fbdb
       .ref()
       .child("playersgame" + key)
       .push().key;
@@ -1397,7 +1400,7 @@
       console.log(lastGame);
       console.log("----");
     }
-    var dbPlayersGame = fbdb.ref(
+    const dbPlayersGame = fbdb.ref(
       "/playersgame/" + key + "/" + newPlayersGameKey
     );
     dbPlayersGame.set(playersGameData).catch(function(error) {
