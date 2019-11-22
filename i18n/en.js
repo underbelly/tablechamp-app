@@ -91,7 +91,7 @@ var i18n = {
       gamesWon: "Games won",
       ranking: "Ranking",
       singles: "Singles",
-      goalsScored: "Goals Scored"
+      goalsScored: "Goals scored"
     }
   },
   index: {

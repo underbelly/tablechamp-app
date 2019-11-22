@@ -1,391 +1,380 @@
 <html>
-<head>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<title>Underbelly TableChamp</title>
-	<link rel="shortcut icon" href="https://underbelly.is/static/favicon-v2.ico" type="image/x-icon">
-	<link rel="stylesheet" type="text/css" charset="utf-8"  media="screen, projection" href="css/tablechamp.css" />
-	<link href="https://fonts.googleapis.com/css?family=Libre+Franklin:400,600" rel="stylesheet">
-</head>
-<body>
-	<div class="message"></div>
-	<div class="loader"></div>
-	<div class="css-block"></div>
-	<div class="sidebar">
-		<div class="sidebar-container">
-			<header></header>
-			<div class="sidebar-menu"></div>
-			<div class="sidebar-body"></div>
-		</div>
-	</div>
-	<div class="app">
-		<header></header>
-		<div class="doubles" style="display: none;">
-			<div class="top-rankings"></div>
-			<div class="rankings"></div>
-		</div>
-		<div class="singles">
-			<div class="top-rankings"></div>
-			<div class="rankings"></div>
-		</div>
-	</div>
-	<div class="modal-backdrop show">
-		<div class="modal"></div>
-	</div>
-	<script src="js/firebase-key.js"></script>
-	<script src="js/jquery.min.js"></script>
-	<script src="js/i18n.js"></script>
-	<script src="js/templating.js"></script>
-	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
-	<script src="js/firebase.3.6.5.js"></script>
-	<script type="text/javascript" src="js/iris.min.js"></script>
-	<script type="text/javascript" src="js/source/tablechamp.js"></script>
-	<!-- JS Templates -->
-	<script type="text/html" id="appHeader">
-		<a href="#" class="c-button c-button--md c-button--primary right add-score"><%=addScore%></a>
-		<div class="name">
-			<svg xmlns="http://www.w3.org/2000/svg" width="202" height="60" viewBox="0 0 202 60"><path fill="#00b5e2" fill-rule="evenodd" d="M145.817 18.65c2.514.157-.872 11.127-4.966 13.235.034-6.02 3.354-13.337 4.967-13.236m-19.83 10.73c-2.615-1.377-4.196-3.352-3.028-6.125.362-.643.778-1.067 1.243-1.067 1.79 0 2.153 3.36 1.785 7.192m-3.697 11.007c-1.99 0-1.73-5.336-.777-11.756.823.943 2.146 1.886 4.24 2.657-.687 4.55-2.207 9.1-3.462 9.1M89.794 18.65c2.514.157-.872 11.127-4.967 13.235.034-6.02 3.354-13.337 4.967-13.236M65.215 33.055c-.038 1.064.122 2.252.49 3.41-.597.86-1.404 1.66-2.298 1.555-1.854-.22-2.908-3.21-2.33-8.054.575-4.844 1.896-10.243 4.676-9.912.576.07 1.003.323 1.316.695-.888 4.456-1.742 9.05-1.855 12.306M197.17 54.62c0-12.44 4.813-27.783 4.813-33.155.056-1.607-1.3-4.355-4.772-4.355-1.496 0-2.597.28-3.366.597h-.004c-.47.222-.462.708-.213.83.46.217.86.834.807 2.358-.09 2.626-1.394 10.336-2.614 17.967-1.26.998-2.324 1.27-3.024 1.125-.905-.186-1.65-1.155-1.583-3.795.04-1.578 2.502-14.15 2.725-15.848.548-4.173-1.282-6.116-3.97-6.116-1.62 0-2.732.454-3.398.855-.005.008-.014.016-.028.026l-.015.007c-.464.238-.418.642-.207.822l.014.012s0 .003.002.004c.973 1.123-.294 5.59-1.697 12.07-.774 3.57-1.11 6.65-.548 9.027-3.12 3.197-5.93 2.114-5.853-2.338.09-5.185 1.986-11.408 2.99-20.96.34-3.212-1.586-5.895-5.06-5.895-1.5 0-2.596.28-3.36.6-.47.22-.465.727-.206.823l.018.007.002.002c.46.222.863.843.836 2.353-.085 4.873-3.004 14.515-3.125 21.41-.018 1.063.162 2.248.548 3.403-3.33 3.91-6.48 2.966-6.4-1.743.092-5.185 2.364-16.067 3.546-23.558.604-3.83-1.724-6.563-5.197-6.563-1.51 0-2.614.284-3.38.606-.444.22-.444.69-.206.808.475.206.903.817.876 2.37-.08 4.538-2.975 16.04-3.472 23.168-1.75 4.533-4.282 8.175-7.856 7.78-2.693-.298-3.522-2.702-3.862-5.785-.02-.172-.034-.347-.047-.523 3.064-.255 8.937-1.645 9.697-8.52.533-4.812-2.88-6.993-5.64-7.298-5.615-.622-9.977 5.706-10.657 11.855-.1.913-.128 1.826-.082 2.72-.543-.084-1.1-.18-1.665-.29.153-.79.266-1.568.344-2.304.57-5.423-.71-11.16-5.698-11.16-1.813 0-3.124.646-4.062 1.467 1-5.154 1.922-9.773 2.195-11.732.8-5.75-2.323-7.755-5.505-7.755-1.385 0-2.41.382-3.127.813-.357.25-.35.715-.122.774.785.08 1.51.896 1.27 3.164-.372 3.543-3.472 19.814-4.01 24.924-.215 2.06-.077 4.488.654 6.656-1.036 1.28-2.19 2.115-3.427 2.084-5.064-.126-.446-13.482-.174-15.403.272-1.92.662-4.842-5.767-6.106-1.828-.36-2.96-.454-2.96-.454s.1-.4.2-1.027c.463-3.526-1.002-4.542-1.928-4.696-1.003-.167-2.927.084-3.597 2.677-.402 1.558-.64 3.673 1.07 4.686.436.228.923.406 1.462.522-1.23 5.83-5.04 21.385-10.587 20.714-2.693-.298-3.522-2.702-3.862-5.785-.02-.172-.034-.347-.047-.523 3.065-.255 8.938-1.645 9.698-8.52.532-4.812-2.88-6.993-5.642-7.298-5.613-.622-9.975 5.706-10.655 11.855-.295 2.68.03 5.35 1.054 7.562-3.343 3.72-6.388 2.74-6.225-1.902.18-5.185 2.375-12.975 3.87-22.894.75-4.96-1.523-7.226-4.997-7.226-1.52 0-2.632.287-3.403.61-.428.21-.458.654-.25.785.49.188.933.79.877 2.388-.08 2.246-.877 6.2-1.74 10.483-.677-.828-1.664-1.434-3.084-1.603-5.25-.624-9.892 4.623-10.907 13.157-.223 1.872-.16 3.484.1 4.86-1.065 1.238-2.277 2.34-3.22 2.34-.933 0-2.123-.357-2.123-3 0-2.645 1.45-8.042 1.45-10.894 0-2.85-1.245-6.61-5.78-6.61-2.052 0-4.087 1.712-5.7 4.037.03-.446.05-.892.05-1.337 0-.725-.778-3.058-3.993-3.058-1.78 0-2.875.43-3.5.812 0 0 0 .002-.002.003l-.014.008c-.448.267-.433.59-.268.813l.005.007c1.285 1.864-2.053 13.87-2.053 16.886 0 .555.044 1.12.13 1.677-3.022 2.902-7.052 3.79-7.052-2.914 0-7.635 3.42-21.26 3.42-26.686 0-3.288-2.247-4.904-4.86-4.904-1.68 0-2.932.472-3.715.893-.328.21-.298.544-.136.718l.064.057.01.01.002.002c.502.492.827 1.635.85 2.667.12 5.167-3.068 17.674-3.068 26.238 0 1.064.194 2.122.55 3.12-3.346 4.252-6.67 3.382-6.67-1.443 0-5.185 3.162-16.435 3.162-25.766 0-1.608-1.866-4.356-5.34-4.356-1.494 0-2.585.278-3.343.596-.456.224-.443.708-.195.825l.016.01c.465.22.88.84.88 2.353C3.11 13.252 0 26.16 0 33.056c0 3.784 2.54 9.124 7.88 9.124 3.67 0 6.166-2.818 7.367-4.58 1.454 2.64 4.118 4.58 7.344 4.58 2.877 0 5.1-1.784 6.453-3.267.71 1.876 2.014 3.315 3.926 3.315 1.715 0 2.893-.44 3.596-.828.38-.29.35-.67.173-.783l-.025-.017c-.555-.4-1.258-1.486-1.258-4.438l.01.106c0-5.29 3.308-14.725 5.486-14.725 2.695 0-.305 10.548-.305 15.266 0 2.435 1.62 5.37 6.063 5.37 2.62 0 5.347-2.514 7.39-4.974 1.328 3.473 4.04 4.875 5.587 4.875 3.126 0 5.503-1.12 6.95-3.525 1.22 2.047 3.237 3.625 6.14 3.625 3.442 0 5.936-2.478 7.274-4.24 1.435 2.17 3.714 3.692 6.944 3.985 7.95.722 11.263-7.815 14.56-22.72 3.35 1.287 2.384 3.633 1.844 6.983-.753 4.678-4.07 15.768 4.847 15.99 2.802.07 5.148-1.634 7.048-4.004 1.31 2.318 3.55 4.006 7.123 4.006 5.95 0 8.69-4.786 9.853-9.473.643.073 1.32.136 2.033.187.585 4.642 3.328 8.542 8.715 9.03 4.074.37 7.347-2.01 9.865-6.316.802 3.257 3.212 6.572 7.42 6.572 3.445 0 5.896-2.482 7.203-4.243 1.206 2.34 3.362 4.243 6.55 4.243 2.986 0 5.225-1.863 6.62-3.506.85 1.66 2.382 2.806 4.864 3.317 2.306.475 4.333-.18 5.972-1.19-.493 3.125-.954 6.164-1.29 8.752-.293 2.248-1.468 9.898 4.446 9.898 1.328 0 2.63-1.07 3.33-1.758.344-.355.228-.678.036-.835l-.027-.026c-.382-.32-.836-.96-.836-2.21"></path></svg>
-			<span class="game-type"></span>
-		</div>
-		<div class="header-block">
-			<a href="#" class="singles-toggle ranking-toggle c-button c-button--md is-selected" tabindex="-1" data-view="singles"><%=singles%></a>
-			<a href="#" class="doubles-toggle ranking-toggle c-button c-button--md" data-view="doubles"><%=doubles%></a>
-			<a href="#" class="c-button c-button--link settings"><%=settings%></a>
-			<a href="#" class="c-button c-button--link logout"><%=logOut%></a>
-		</div>
-	</script>
-	<script type="text/html" id="loader">
-		<%=loading%>...
-	</script>
-	<script type="text/html" id="playersRow">
-		<tr class="player" data-id="<%=key%>">
-			<td><input type="text" value="<%=playerName%>" /></td>
-			<td>
-				<a href="#" class="player-status"><%=playerStatus%></a>
-				<a href="#" class="player-delete"><%=deleteLink%></a>
-			</td>
-		</tr>
-	</script>
-	<script type="text/html" id="rankingsRow">
-		<div class="ranking" data-id="<%=key%>" tabindex="0">
-				<span class="rank"><%=rank%></span>
-				<span class="name"><%=name%></span>
-			<div class="right">
-				<span class="movement"><%=lastMovement%></span>
-				<span class="points"><%=points%></span>
-			</div>
-		</div>
-	</script>
-	<script type="text/html" id="scoreAdd">
-		<div class="modal-header">
-			<a href="#" class="modal-close c-button">x</a>
-			<%=addScoreTitle%>
-		</div>
-		<form class="score-add">
-			<div class="modal-body">
-				<div class="t1">
-					<section>
-						<strong><%=teamOnePlayers%>:</strong>
-						<div class="players-select t1-players"></div>
-						<strong><%=teamOneScore%>:</strong>
-						<div class="score">
-							<div class="decrement">
-								<a href="#" data-team="1" data-amount="1" data-type="-">-1</a>
-								<a href="#" data-team="1" data-amount="5" data-type="-">-5</a>
-								<a href="#" data-team="1" data-amount="10" data-type="-">-10</a>
-							</div>
-							<div class="increment">
-								<a href="#" data-team="1" data-amount="1" data-type="+">+1</a>
-								<a href="#" data-team="1" data-amount="5" data-type="+">+5</a>
-								<a href="#" data-team="1" data-amount="10" data-type="+">+10</a>
-							</div>
-							<input type="text" class="t1-score" value="0"/>
-						</div>
-					</section>
-				</div>
-				<div class="t2">
-					<section>
-						<strong><%=teamTwoPlayers%>:</strong>
-						<div class="players-select t2-players"></div>
-						<strong><%=teamTwoScore%>:</strong>
-						<div class="score">
-							<div class="decrement">
-								<a href="#" data-team="2" data-amount="1" data-type="-">-1</a>
-								<a href="#" data-team="2" data-amount="5" data-type="-">-5</a>
-								<a href="#" data-team="2" data-amount="10" data-type="-">-10</a>
-							</div>
-							<div class="increment">
-								<a href="#" data-team="2" data-amount="1" data-type="+">+1</a>
-								<a href="#" data-team="2" data-amount="5" data-type="+">+5</a>
-								<a href="#" data-team="2" data-amount="10" data-type="+">+10</a>
-							</div>
-							<input type="text" class="t2-score" value="0"/>
-						</div>
-					</section>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button class="c-button c-button--md c-button--primary" type="submit"><%=addScoreButton%></button>
-			</div>
-		</form>
-	</script>
-	<script type="text/html" id="scorePlayers">
-		<a href="#" data-id="<%=key%>"><%=playerName%></a>
-	</script>
-	<script type="text/html" id="settingsBasics">
-		<section class="basics">
-			<form>
-				<div class="control">
-					<strong><%=orgName%>?</strong>
-					<input type="text" id="orgName" placeholder="<%=companyOrClub%>">
-				</div>
-				<div class="control">
-					<strong><%=whatGame%>?</strong>
-					<label for="game1"><input type="radio" name="gameType" id="game1" value="air-hockey"> <span><%=gameAirHockey%></span></label>
-					<label for="game2"><input type="radio" name="gameType" id="game2" value="billiards"> <span><%=gameBilliards%></span></label>
-					<label for="game3"><input type="radio" name="gameType" id="game3" value="foosball"> <span><%=gameFoosball%></span></label>
-					<label for="game4"><input type="radio" name="gameType" id="game4" value="shuffleboard"> <span><%=gameShuffleboard%></span></label>
-					<label for="game5"><input type="radio" name="gameType" id="game5" value="table-tennis"> <span><%=gameTableTennis%></span></label>
-				</div>
-				<div class="control">
-					<strong><%=language%></strong>
-					<select class="lang">
-						<option value="da">dansk</option>
-						<option value="de">Deutsche</option>
-						<option value="en">English</option>
-						<option value="es">Español</option>
-						<option value="fr">français</option>
-						<option value="hi">हिंदी</option>
-						<option value="id">bahasa Indonesia</option>
-						<option value="it">italiano</option>
-						<option value="ja">日本語</option>
-						<option value="ko">한국어</option>
-						<option value="pt">Português</option>
-						<option value="ru">русский</option>
-						<option value="sv">svenska</option>
-						<option value="zh">中文</option>
-					</select>
-				</div>
-				<div class="control">
-					<a href="#" class="next c-button c-button--md c-button--primary"><%=nextButton%></a>
-				</div>
-			</form>
-		</section>
-	</script>
-	<script type="text/html" id="settingsColors">
-		<section class="colors">
-			<form>
-				<div class="control c0">
-					<input type="text" class="color-picker" id="c0" value="<%=c0%>">
-					<span class="swatch" style="background: <%=c0%>;"></span>
-					<span><%=primaryText%></span>
-				</div>
-				<div class="control c1">
-					<input type="text" class="color-picker" id="c1" value="<%=c1%>">
-					<span class="swatch" style="background: <%=c1%>;"></span>
-					<span><%=highlightColor%></span>
-				</div>
-				<div class="control c2">
-					<input type="text" class="color-picker" id="c2" value="<%=c2%>">
-					<span class="swatch" style="background: <%=c2%>;"></span>
-					<span><%=secondaryText%></span>
-				</div>
-				<div class="control c3">
-					<input type="text" class="color-picker" id="c3" value="<%=c3%>">
-					<span class="swatch" style="background: <%=c3%>;"></span>
-					<span><%=secondaryBackground%></span>
-				</div>
-				<div class="control c4">
-					<input type="text" class="color-picker" id="c4" value="<%=c4%>">
-					<span class="swatch" style="background: <%=c4%>;"></span>
-					<span><%=primaryBackground%></span>
-				</div>
-				<div class="control c5">
-					<input type="text" class="color-picker" id="c5" value="<%=c5%>">
-					<span class="swatch" style="background: <%=c5%>;"></span>
-					<span><%=primaryButton%></span>
-				</div>
-				<div class="control">
-					<a href="#" class="next c-button c-button--md c-button--primary"><%=nextButton%></a>
-					<a href="#" class="reset-colors c-button c-button--link right"><%=resetColors%></a>
-				</div>
-			</form>
-		</section>
-	</script>
-	<script type="text/html" id="settingsPlayers">
-		<section class="players-add" style="display: none;">
-			<form class="players-add-form">
-				<p><%=onePerLine%>:</p>
-				<div class="control">
-					<textarea placeholder="<%=addPlayers%>"></textarea>
-					<button type="submit" class="c-button right"><%=addPlayers%></button>
-				</div>
-			</form>
-		</section>
-		<section class="players-view">
-			<form>
-				<div class="control">
-					<a href="#" class="players-add-link"><%=addPlayers%></a>
-					<table class="players-list"></table>
-				</div>
-				<div class="control">
-					<a href="#" class="next c-button c-button--md c-button--primary"><%=nextButton%></a>
-				</div>
-			</form>
-		</section>
-	</script>
-	<script type="text/html" id="settingsUsers">
-		<section class="users">
-			<form>
-				<div class="control">
-					<p><%=manageLogins%> <a href="" class="account-manage">FireBase</a></p>
-				</div>
-			</form>
-		</section>
-	</script>
-	<script type="text/html" id="sidebarHeader">
-		<h3><%=settings%></h3>
-		<a href="#" class="c-button sidebar-close">x</a>
-	</script>
-	<script type="text/html" id="sidebarMenu">
-		<div class="button-group">
-			<a href="#" class="sidebar-basics c-button active"><%=basics%></a>
-			<a href="#" class="sidebar-colors c-button"><%=colors%></a>
-			<a href="#" class="sidebar-players c-button"><%=players%></a>
-			<a href="#" class="sidebar-users c-button"><%=users%></a>
-		</div>
-	</script>
-	<script type="text/html" id="stats">
-		<div class="modal-header">
-			<a href="#" class="modal-close c-button">x</a>
-			<%=playerStats%><span><%=forText%> <%=name%></span>
-			<img src="<%=avatar%>" />
-		</div>
-		<div class="modal-body">
-			<div class="stats-player-container"><table class="stats-player"></table></div>
-			<div class="stats-player-games">
-				<ul></ul>
-			</div>
-		</div>
-	</script>
-	<script type="text/html" id="statsPlayer">
-		<tr class="table-header">
-			<th></th>
-			<th><%=singles%></th>
-			<th><%=doubles%></th>
-		</tr>
-		<tr>
-			<th><%=goalsScored%></th>
-			<td><%=singles_goals%></td>
-			<td><%=doubles_goals%></td>
-		</tr>
-        <tr>
-			<th><%=gamesPlayed%></th>
-			<td><%=singles_played%></td>
-			<td><%=doubles_played%></td>
-		</tr>
-		<tr>
-			<th><%=gamesWon%></th>
-			<td><%=singles_won%></td>
-			<td><%=doubles_won%></td>
-		</tr>
-		<tr>
-			<th><%=gamesLost%></th>
-			<td><%=singles_lost%></td>
-			<td><%=doubles_lost%></td>
-		</tr>
-		<tr>
-			<th><%=ranking%></th>
-			<td><%=singles_rank%></td>
-			<td><%=doubles_rank%></td>
-		</tr>
-	</script>
-	<script type="text/html" id="statsPlayerGames">
-		<li><strong class="<%=status%>"><%=status%></strong> <%=t1%> (<%=t1Score%>) vs. <%=t2%> (<%=t2Score%>)</li>
-	</script>
-	<script type="text/html" id="cssBlock">
-		<style>
-			/* Color 0 */
-			.color-bg-0,
-			.modal { background: <%=c0%>; }
-			.color-tx-0,
-			.c-button:active,
-  			.c-button:focus,
-  			.c-button:hover,
-  			.c-button.is-selected,
-  			.ranking,
-  			.top-rankings .movement,
-  			.top-rankings .rank,
-  			.top-rankings .ranking,
-  			header .name,
-  			.movement-positive { color: <%=c0%> }
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Underbelly TableChamp</title>
+    <link
+      rel="shortcut icon"
+      href="https://underbelly.is/static/favicon-v2.ico"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      charset="utf-8"
+      media="screen, projection"
+      href="css/tablechamp.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Libre+Franklin:400,600"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="message"></div>
+    <div class="loader"></div>
+    <div class="css-block"></div>
+    <div class="sidebar">
+      <div class="sidebar-container">
+        <header></header>
+        <div class="sidebar-menu"></div>
+        <div class="sidebar-body"></div>
+      </div>
+    </div>
+    <div class="app">
+      <header></header>
+      <div class="doubles" style="display: none;">
+        <div class="top-rankings"></div>
+        <div class="rankings"></div>
+      </div>
+      <div class="singles">
+        <div class="top-rankings"></div>
+        <div class="rankings"></div>
+      </div>
+    </div>
+    <div class="modal-backdrop show">
+      <div class="modal"></div>
+    </div>
+    <script src="js/firebase-key.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/templating.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+    <script src="js/firebase.3.6.5.js"></script>
+    <script type="text/javascript" src="js/iris.min.js"></script>
+    <script type="text/javascript" src="js/source/tablechamp.js"></script>
+    <!-- JS Templates -->
+    <script type="text/html" id="appHeader">
+      <!--		<a href="#" class="c-button c-button&#45;&#45;md c-button&#45;&#45;primary right add-score"><%=addScore%></a>-->
+      		<div class="name">
+      			<svg xmlns="http://www.w3.org/2000/svg" width="202" height="60" viewBox="0 0 202 60"><path fill="#00b5e2" fill-rule="evenodd" d="M145.817 18.65c2.514.157-.872 11.127-4.966 13.235.034-6.02 3.354-13.337 4.967-13.236m-19.83 10.73c-2.615-1.377-4.196-3.352-3.028-6.125.362-.643.778-1.067 1.243-1.067 1.79 0 2.153 3.36 1.785 7.192m-3.697 11.007c-1.99 0-1.73-5.336-.777-11.756.823.943 2.146 1.886 4.24 2.657-.687 4.55-2.207 9.1-3.462 9.1M89.794 18.65c2.514.157-.872 11.127-4.967 13.235.034-6.02 3.354-13.337 4.967-13.236M65.215 33.055c-.038 1.064.122 2.252.49 3.41-.597.86-1.404 1.66-2.298 1.555-1.854-.22-2.908-3.21-2.33-8.054.575-4.844 1.896-10.243 4.676-9.912.576.07 1.003.323 1.316.695-.888 4.456-1.742 9.05-1.855 12.306M197.17 54.62c0-12.44 4.813-27.783 4.813-33.155.056-1.607-1.3-4.355-4.772-4.355-1.496 0-2.597.28-3.366.597h-.004c-.47.222-.462.708-.213.83.46.217.86.834.807 2.358-.09 2.626-1.394 10.336-2.614 17.967-1.26.998-2.324 1.27-3.024 1.125-.905-.186-1.65-1.155-1.583-3.795.04-1.578 2.502-14.15 2.725-15.848.548-4.173-1.282-6.116-3.97-6.116-1.62 0-2.732.454-3.398.855-.005.008-.014.016-.028.026l-.015.007c-.464.238-.418.642-.207.822l.014.012s0 .003.002.004c.973 1.123-.294 5.59-1.697 12.07-.774 3.57-1.11 6.65-.548 9.027-3.12 3.197-5.93 2.114-5.853-2.338.09-5.185 1.986-11.408 2.99-20.96.34-3.212-1.586-5.895-5.06-5.895-1.5 0-2.596.28-3.36.6-.47.22-.465.727-.206.823l.018.007.002.002c.46.222.863.843.836 2.353-.085 4.873-3.004 14.515-3.125 21.41-.018 1.063.162 2.248.548 3.403-3.33 3.91-6.48 2.966-6.4-1.743.092-5.185 2.364-16.067 3.546-23.558.604-3.83-1.724-6.563-5.197-6.563-1.51 0-2.614.284-3.38.606-.444.22-.444.69-.206.808.475.206.903.817.876 2.37-.08 4.538-2.975 16.04-3.472 23.168-1.75 4.533-4.282 8.175-7.856 7.78-2.693-.298-3.522-2.702-3.862-5.785-.02-.172-.034-.347-.047-.523 3.064-.255 8.937-1.645 9.697-8.52.533-4.812-2.88-6.993-5.64-7.298-5.615-.622-9.977 5.706-10.657 11.855-.1.913-.128 1.826-.082 2.72-.543-.084-1.1-.18-1.665-.29.153-.79.266-1.568.344-2.304.57-5.423-.71-11.16-5.698-11.16-1.813 0-3.124.646-4.062 1.467 1-5.154 1.922-9.773 2.195-11.732.8-5.75-2.323-7.755-5.505-7.755-1.385 0-2.41.382-3.127.813-.357.25-.35.715-.122.774.785.08 1.51.896 1.27 3.164-.372 3.543-3.472 19.814-4.01 24.924-.215 2.06-.077 4.488.654 6.656-1.036 1.28-2.19 2.115-3.427 2.084-5.064-.126-.446-13.482-.174-15.403.272-1.92.662-4.842-5.767-6.106-1.828-.36-2.96-.454-2.96-.454s.1-.4.2-1.027c.463-3.526-1.002-4.542-1.928-4.696-1.003-.167-2.927.084-3.597 2.677-.402 1.558-.64 3.673 1.07 4.686.436.228.923.406 1.462.522-1.23 5.83-5.04 21.385-10.587 20.714-2.693-.298-3.522-2.702-3.862-5.785-.02-.172-.034-.347-.047-.523 3.065-.255 8.938-1.645 9.698-8.52.532-4.812-2.88-6.993-5.642-7.298-5.613-.622-9.975 5.706-10.655 11.855-.295 2.68.03 5.35 1.054 7.562-3.343 3.72-6.388 2.74-6.225-1.902.18-5.185 2.375-12.975 3.87-22.894.75-4.96-1.523-7.226-4.997-7.226-1.52 0-2.632.287-3.403.61-.428.21-.458.654-.25.785.49.188.933.79.877 2.388-.08 2.246-.877 6.2-1.74 10.483-.677-.828-1.664-1.434-3.084-1.603-5.25-.624-9.892 4.623-10.907 13.157-.223 1.872-.16 3.484.1 4.86-1.065 1.238-2.277 2.34-3.22 2.34-.933 0-2.123-.357-2.123-3 0-2.645 1.45-8.042 1.45-10.894 0-2.85-1.245-6.61-5.78-6.61-2.052 0-4.087 1.712-5.7 4.037.03-.446.05-.892.05-1.337 0-.725-.778-3.058-3.993-3.058-1.78 0-2.875.43-3.5.812 0 0 0 .002-.002.003l-.014.008c-.448.267-.433.59-.268.813l.005.007c1.285 1.864-2.053 13.87-2.053 16.886 0 .555.044 1.12.13 1.677-3.022 2.902-7.052 3.79-7.052-2.914 0-7.635 3.42-21.26 3.42-26.686 0-3.288-2.247-4.904-4.86-4.904-1.68 0-2.932.472-3.715.893-.328.21-.298.544-.136.718l.064.057.01.01.002.002c.502.492.827 1.635.85 2.667.12 5.167-3.068 17.674-3.068 26.238 0 1.064.194 2.122.55 3.12-3.346 4.252-6.67 3.382-6.67-1.443 0-5.185 3.162-16.435 3.162-25.766 0-1.608-1.866-4.356-5.34-4.356-1.494 0-2.585.278-3.343.596-.456.224-.443.708-.195.825l.016.01c.465.22.88.84.88 2.353C3.11 13.252 0 26.16 0 33.056c0 3.784 2.54 9.124 7.88 9.124 3.67 0 6.166-2.818 7.367-4.58 1.454 2.64 4.118 4.58 7.344 4.58 2.877 0 5.1-1.784 6.453-3.267.71 1.876 2.014 3.315 3.926 3.315 1.715 0 2.893-.44 3.596-.828.38-.29.35-.67.173-.783l-.025-.017c-.555-.4-1.258-1.486-1.258-4.438l.01.106c0-5.29 3.308-14.725 5.486-14.725 2.695 0-.305 10.548-.305 15.266 0 2.435 1.62 5.37 6.063 5.37 2.62 0 5.347-2.514 7.39-4.974 1.328 3.473 4.04 4.875 5.587 4.875 3.126 0 5.503-1.12 6.95-3.525 1.22 2.047 3.237 3.625 6.14 3.625 3.442 0 5.936-2.478 7.274-4.24 1.435 2.17 3.714 3.692 6.944 3.985 7.95.722 11.263-7.815 14.56-22.72 3.35 1.287 2.384 3.633 1.844 6.983-.753 4.678-4.07 15.768 4.847 15.99 2.802.07 5.148-1.634 7.048-4.004 1.31 2.318 3.55 4.006 7.123 4.006 5.95 0 8.69-4.786 9.853-9.473.643.073 1.32.136 2.033.187.585 4.642 3.328 8.542 8.715 9.03 4.074.37 7.347-2.01 9.865-6.316.802 3.257 3.212 6.572 7.42 6.572 3.445 0 5.896-2.482 7.203-4.243 1.206 2.34 3.362 4.243 6.55 4.243 2.986 0 5.225-1.863 6.62-3.506.85 1.66 2.382 2.806 4.864 3.317 2.306.475 4.333-.18 5.972-1.19-.493 3.125-.954 6.164-1.29 8.752-.293 2.248-1.468 9.898 4.446 9.898 1.328 0 2.63-1.07 3.33-1.758.344-.355.228-.678.036-.835l-.027-.026c-.382-.32-.836-.96-.836-2.21"></path></svg>
+      			<span class="game-type"></span>
+      		</div>
+      		<div class="header-block">
+      <!--			<a href="#" class="singles-toggle ranking-toggle c-button c-button&#45;&#45;md is-selected" tabindex="-1" data-view="singles"><%=singles%></a>-->
+      <!--			<a href="#" class="doubles-toggle ranking-toggle c-button c-button&#45;&#45;md" data-view="doubles"><%=doubles%></a>-->
+      			<a href="#" class="c-button c-button--link settings"><%=settings%></a>
+      			<a href="#" class="c-button c-button--link logout"><%=logOut%></a>
+      		</div>
+    </script>
+    <script type="text/html" id="loader">
+      <%=loading%>...
+    </script>
+    <script type="text/html" id="playersRow">
+      <tr class="player" data-id="<%=key%>">
+      	<td><input type="text" value="<%=playerName%>" /></td>
+      	<td>
+      		<a href="#" class="player-status"><%=playerStatus%></a>
+      		<a href="#" class="player-delete"><%=deleteLink%></a>
+      	</td>
+      </tr>
+    </script>
+    <script type="text/html" id="rankingsRow">
+      <div class="ranking" data-id="<%=key%>" tabindex="0">
+      		<span class="rank"><%=rank%></span>
+      		<span class="name"><%=name%></span>
+      	<div class="right">
+      		<span class="movement"> Goals: +<%=lastGoalsScored%></span>
+      		<span class="movement">Points: <%=lastMovement%></span>
+      		<span class="points"><%=points%></span>
+      	</div>
+      </div>
+    </script>
 
-  			/* Color 1 */
-			.c-button,
-			.color-tx-1 { color: <%=c1%>; }
-  			.ranking:focus,
-			.ranking:hover { border-color: <%=c1%>; }
+    <script type="text/html" id="scorePlayers">
+      <a href="#" data-id="<%=key%>"><%=playerName%></a>
+    </script>
 
-			/* Color 2 */
-			.ranking:focus,
-			.ranking:hover { border-color: <%=c2%>; }
-			.ranking .movement,
-			.ranking .rank,
-			header .game-type,
-			.top-rankings .movement span { color: <%=c2%>; }
-			.title-bar { background: <%=c2%>; }
-
-			/* Color 3 */
-			.c-button,
-			.c-button:active,
+    <script type="text/html" id="settingsBasics">
+      <section class="basics">
+      	<form>
+      		<div class="control">
+      			<strong><%=orgName%>?</strong>
+      			<input type="text" id="orgName" placeholder="<%=companyOrClub%>">
+      		</div>
+      		<div class="control">
+      			<strong><%=whatGame%>?</strong>
+      			<label for="game1"><input type="radio" name="gameType" id="game1" value="air-hockey"> <span><%=gameAirHockey%></span></label>
+      			<label for="game2"><input type="radio" name="gameType" id="game2" value="billiards"> <span><%=gameBilliards%></span></label>
+      			<label for="game3"><input type="radio" name="gameType" id="game3" value="foosball"> <span><%=gameFoosball%></span></label>
+      			<label for="game4"><input type="radio" name="gameType" id="game4" value="shuffleboard"> <span><%=gameShuffleboard%></span></label>
+      			<label for="game5"><input type="radio" name="gameType" id="game5" value="table-tennis"> <span><%=gameTableTennis%></span></label>
+      		</div>
+      		<div class="control">
+      			<strong><%=language%></strong>
+      			<select class="lang">
+      				<option value="da">dansk</option>
+      				<option value="de">Deutsche</option>
+      				<option value="en">English</option>
+      				<option value="es">Español</option>
+      				<option value="fr">français</option>
+      				<option value="hi">हिंदी</option>
+      				<option value="id">bahasa Indonesia</option>
+      				<option value="it">italiano</option>
+      				<option value="ja">日本語</option>
+      				<option value="ko">한국어</option>
+      				<option value="pt">Português</option>
+      				<option value="ru">русский</option>
+      				<option value="sv">svenska</option>
+      				<option value="zh">中文</option>
+      			</select>
+      		</div>
+      		<div class="control">
+      			<a href="#" class="next c-button c-button--md c-button--primary"><%=nextButton%></a>
+      		</div>
+      	</form>
+      </section>
+    </script>
+    <script type="text/html" id="settingsColors">
+      <section class="colors">
+      	<form>
+      		<div class="control c0">
+      			<input type="text" class="color-picker" id="c0" value="<%=c0%>">
+      			<span class="swatch" style="background: <%=c0%>;"></span>
+      			<span><%=primaryText%></span>
+      		</div>
+      		<div class="control c1">
+      			<input type="text" class="color-picker" id="c1" value="<%=c1%>">
+      			<span class="swatch" style="background: <%=c1%>;"></span>
+      			<span><%=highlightColor%></span>
+      		</div>
+      		<div class="control c2">
+      			<input type="text" class="color-picker" id="c2" value="<%=c2%>">
+      			<span class="swatch" style="background: <%=c2%>;"></span>
+      			<span><%=secondaryText%></span>
+      		</div>
+      		<div class="control c3">
+      			<input type="text" class="color-picker" id="c3" value="<%=c3%>">
+      			<span class="swatch" style="background: <%=c3%>;"></span>
+      			<span><%=secondaryBackground%></span>
+      		</div>
+      		<div class="control c4">
+      			<input type="text" class="color-picker" id="c4" value="<%=c4%>">
+      			<span class="swatch" style="background: <%=c4%>;"></span>
+      			<span><%=primaryBackground%></span>
+      		</div>
+      		<div class="control c5">
+      			<input type="text" class="color-picker" id="c5" value="<%=c5%>">
+      			<span class="swatch" style="background: <%=c5%>;"></span>
+      			<span><%=primaryButton%></span>
+      		</div>
+      		<div class="control">
+      			<a href="#" class="next c-button c-button--md c-button--primary"><%=nextButton%></a>
+      			<a href="#" class="reset-colors c-button c-button--link right"><%=resetColors%></a>
+      		</div>
+      	</form>
+      </section>
+    </script>
+    <script type="text/html" id="settingsPlayers">
+      <section class="players-add" style="display: none;">
+      	<form class="players-add-form">
+      		<p><%=onePerLine%>:</p>
+      		<div class="control">
+      			<textarea placeholder="<%=addPlayers%>" aria-label="Add Players"></textarea>
+      			<button type="submit" class="c-button right"><%=addPlayers%></button>
+      		</div>
+      	</form>
+      </section>
+      <section class="players-view">
+      	<form>
+      		<div class="control">
+      			<a href="#" class="players-add-link"><%=addPlayers%></a>
+      			<table class="players-list"></table>
+      		</div>
+      		<div class="control">
+      			<a href="#" class="next c-button c-button--md c-button--primary"><%=nextButton%></a>
+      		</div>
+      	</form>
+      </section>
+    </script>
+    <script type="text/html" id="settingsUsers">
+      <section class="users">
+      	<form>
+      		<div class="control">
+      			<p><%=manageLogins%> <a href="" class="account-manage">FireBase</a></p>
+      		</div>
+      	</form>
+      </section>
+    </script>
+    <script type="text/html" id="sidebarHeader">
+      <h3><%=settings%></h3>
+      <a href="#" class="c-button sidebar-close">x</a>
+    </script>
+    <script type="text/html" id="sidebarMenu">
+      <div class="button-group">
+      	<a href="#" class="sidebar-basics c-button active"><%=basics%></a>
+      	<a href="#" class="sidebar-colors c-button"><%=colors%></a>
+      	<a href="#" class="sidebar-players c-button"><%=players%></a>
+      	<a href="#" class="sidebar-users c-button"><%=users%></a>
+      </div>
+    </script>
+    <script type="text/html" id="stats">
+      <div class="modal-header">
+      	<a href="#" class="modal-close c-button">x</a>
+      	<%=playerStats%><span><%=forText%> <%=name%></span>
+      	<img src="<%=avatar%>" />
+      </div>
+      <div class="modal-body">
+      	<div class="stats-player-container"><table class="stats-player"></table></div>
+      	<div class="stats-player-games">
+      		<ul></ul>
+      	</div>
+      </div>
+    </script>
+    <script type="text/html" id="statsPlayer">
+      <tr class="table-header">
+      	<th></th>
+      	<th>Stats</th>
+      </tr>
+            <tr>
+      	<th><%=gamesPlayed%></th>
+      	<td><%=doubles_played%></td>
+      </tr>
+      <tr>
+      	<th><%=gamesWon%></th>
+      	<td><%=doubles_won%></td>
+      </tr>
+      <tr>
+      	<th><%=gamesLost%></th>
+      	<td><%=doubles_lost%></td>
+      </tr>
+      <tr>
+      	<th><%=ranking%></th>
+      	<td><%=doubles_rank%></td>
+      </tr>
+      <tr>
+      	<th><%=goalsScored%></th>
+      	<td><%=doubles_goals%></td>
+      </tr>
+      <tr>
+      	<th>Total points</th>
+      	<td><%=doubles_points%></td>
+      </tr>
+    </script>
+    <script type="text/html" id="statsPlayerGames">
+         <li class="game-li">
+       <strong class="<%=status%>"><%=status%></strong>
+       <span class="team-bracket"><%=t1%> (<%=t1Score%>) <span class="team1"></span></span>
+       vs.
+       <span class="team-bracket"><%=t2%> (<%=t2Score%>)<span class="team2"></span></span>
+      </li>
+    </script>
+    <script type="text/html" id="cssBlock">
+          <style>
+          	/* Color 0 */
+          	.color-bg-0,
+          	.modal { background: <%=c0%>; }
+          	.color-tx-0,
+          	.c-button:active,
 			.c-button:focus,
 			.c-button:hover,
 			.c-button.is-selected,
-			.c-button.is-selected:active,
-			.c-button.is-selected:focus,
-			.c-button.is-selected:hover,
-			.ranking { border-color: <%=c3%>; }
-			.c-button:active,
-			.c-button:focus,
-			.c-button:hover,
-			.c-button.is-selected,
-			.c-button.is-selected:active,
-			.c-button.is-selected:focus,
-			.c-button.is-selected:hover,
-			.top-rankings .ranking { background: <%=c3%>; }
+			.ranking,
+			.top-rankings .movement,
+			.top-rankings .rank,
+			.top-rankings .ranking,
+			header .name,
+			.movement-positive { color: <%=c0%> }
 
-			/* Color 4 */
-			body { background: <%=c4%>; }
+			/* Color 1 */
+          	.c-button,
+          	.color-tx-1 { color: <%=c1%>; }
+          			.ranking:focus,
+          	.ranking:hover { border-color: <%=c1%>; }
 
-			/* Links */
-			.c-button--link { 
-  				background: transparent;
-  				border: transparent;
-  				color: <%=c1%>;
-  			}
-  			.c-button--link:active,
-  			.c-button--link:focus,
-  			.c-button--link:hover { 
-  				background: transparent;
-  				border: transparent;
-  				color: <%=c0%>;
-  			}
-  			
-			/* Primary */
-  			.c-button--primary { 
-  				background: transparent;
-  				border-color: <%=c5%>;
-  				color: <%=c5%>;
-  			}
-  			.c-button--primary:active,
-  			.c-button--primary:focus,
-  			.c-button--primary:hover {
-  				background: <%=c5%>;
-  				border-color: <%=c5%>;
-  				color: <%=c0%>;
-  				text-decoration: none;
-  			}
-		</style>
-	</script>
-</body>
+          	/* Color 2 */
+          	.ranking:focus,
+          	.ranking:hover { border-color: <%=c2%>; }
+          	.ranking .movement,
+          	.ranking .rank,
+          	header .game-type,
+          	.top-rankings .movement span { color: <%=c2%>; }
+          	.title-bar { background: <%=c2%>; }
+
+          	/* Color 3 */
+          	.c-button,
+          	.c-button:active,
+          	.c-button:focus,
+          	.c-button:hover,
+          	.c-button.is-selected,
+          	.c-button.is-selected:active,
+          	.c-button.is-selected:focus,
+          	.c-button.is-selected:hover,
+          	.ranking { border-color: <%=c3%>; }
+          	.c-button:active,
+          	.c-button:focus,
+          	.c-button:hover,
+          	.c-button.is-selected,
+          	.c-button.is-selected:active,
+          	.c-button.is-selected:focus,
+          	.c-button.is-selected:hover,
+          	.top-rankings .ranking { background: <%=c3%>; }
+
+          	/* Color 4 */
+          	body { background: <%=c4%>; }
+
+          	/* Links */
+          	.c-button--link {
+				background: transparent;
+				border: transparent;
+				color: <%=c1%>;
+			}
+			.c-button--link:active,
+			.c-button--link:focus,
+			.c-button--link:hover {
+				background: transparent;
+				border: transparent;
+				color: <%=c0%>;
+			}
+
+          	/* Primary */
+			.c-button--primary {
+				background: transparent;
+				border-color: <%=c5%>;
+				color: <%=c5%>;
+			}
+			.c-button--primary:active,
+			.c-button--primary:focus,
+			.c-button--primary:hover {
+				background: <%=c5%>;
+				border-color: <%=c5%>;
+				color: <%=c0%>;
+				text-decoration: none;
+			}
+
+          	.team1{
+          		background-color: <%=t1%>;
+          		height: 10px;
+          		width: 10px;
+          		display: inline-block;
+          	}
+          	.team2{
+          		background-color: <%=t2%>;
+          		height: 10px;
+          		width: 10px;
+          		display: inline-block
+          	}
+          	.team-bracket {
+				border: 1px solid rgba(0, 0, 0, 0.6);
+				border-radius: 5px;
+				padding: 3px;
+			  }
+
+			  .game-li {
+				  border-bottom: 1px solid rgba(0, 0, 0, 0.35);
+				  padding-bottom: 8px;
+			  }
+          </style>
+    </script>
+  </body>
 </html>

@@ -7,7 +7,9 @@
       c2: "#60678B",
       c3: "#283350",
       c4: "#1C2242",
-      c5: "#57D3C3"
+      c5: "#57D3C3",
+      t1: "#ebff06",
+      t2: "#000000"
     },
     fbdb,
     isOnline = true,
@@ -75,13 +77,13 @@
       return false;
     });
   };
-  function initLoader() {
+  const initLoader = () => {
     $(".loader").html(
       tmpl("loader", {
         loading: i18n.app.loader.loading
       })
     );
-  }
+  };
   // ---------------------------------------------------
   // Events
   // ---------------------------------------------------
@@ -100,7 +102,7 @@
     });
     // Ranking toggle
     $(".ranking-toggle").on("click", function() {
-      var thisView = $(this).data("view");
+      const thisView = $(this).data("view");
       rankingToggle(thisView);
       return false;
     });
@@ -172,8 +174,6 @@
       localDataUpdate(snapshot.val());
       // Update doubles rankings
       doublesRankingsUpdate();
-      // Update singles rankings
-      singlesRankingsUpdate();
       // Rankings events
       rankingsEvents();
     });
@@ -190,7 +190,9 @@
           c2: localData.settings.appColors.c2,
           c3: localData.settings.appColors.c3,
           c4: localData.settings.appColors.c4,
-          c5: localData.settings.appColors.c5
+          c5: localData.settings.appColors.c5,
+          t1: localData.settings.appColors.t1,
+          t2: localData.settings.appColors.t2
         })
       );
       // Update org name
@@ -259,7 +261,8 @@
           singles_lost: data[key].singles_lost,
           singles_points: data[key].singles_points,
           singles_won: data[key].singles_won,
-          status: data[key].status
+          status: data[key].status,
+          last_game_goals: data[key].last_game_goals
         });
       }
     }
@@ -332,14 +335,16 @@
       typeof data.appColors.c5 !== "undefined"
         ? data.appColors.c5
         : defaultColors.c5;
-    /* Dark 
-        'c0' : '#FFF',
-        'c1' : '#8F9EAB',
-        'c2' : '#67727B',
-        'c3' : '#29313B',
-        'c4' : '#020304',
-        'c5' : '#0DD1BF'
-        */
+
+    localData.settings.appColors.t1 =
+      typeof data.appColors.t1 !== "undefined"
+        ? data.appColors.t1
+        : defaultColors.t1;
+
+    localData.settings.appColors.t2 =
+      typeof data.appColors.t2 !== "undefined"
+        ? data.appColors.t2
+        : defaultColors.t2;
   }
   // ---------------------------------------------------
   // Messages
@@ -495,22 +500,23 @@
   // ---------------------------------------------------
   // Rankings | Leaderboard
   // ---------------------------------------------------
-  function doublesRankingsUpdate() {
-    var doublesArray = localData.playersByDoubles;
-    var doublesRankings = "";
-    var doublesTopRankings = "";
-    for (var i = 0; i < doublesArray.length; i++) {
+  const doublesRankingsUpdate = () => {
+    const doublesArray = localData.playersByDoubles;
+    let doublesRankings = "";
+    let doublesTopRankings = "";
+    for (let i = 0; i < doublesArray.length; i++) {
       if (doublesArray[i].status) {
-        var doublesLastMovement = doublesArray[i].doubles_last_movement
+        const doublesLastMovement = doublesArray[i].doubles_last_movement
           ? doublesArray[i].doubles_last_movement.toFixed(2)
           : "";
-        var doublesPoints = doublesArray[i].doubles_points
+        const doublesPoints = doublesArray[i].doubles_points
           ? doublesArray[i].doubles_points.toFixed(2)
           : "";
         if (i < 3) {
           doublesTopRankings += tmpl("rankingsRow", {
             key: doublesArray[i].key,
             lastMovement: rankingMovementStyles(doublesLastMovement),
+            lastGoalsScored: doublesArray[i].last_game_goals,
             name: doublesArray[i].name,
             points: doublesPoints,
             rank: doublesArray[i].doubles_rank,
@@ -523,6 +529,7 @@
             name: doublesArray[i].name,
             points: doublesPoints,
             rank: doublesArray[i].doubles_rank,
+            lastGoalsScored: doublesArray[i].last_game_goals,
             type: "doubles"
           });
         }
@@ -530,7 +537,7 @@
     }
     $(".doubles .top-rankings").html(doublesTopRankings);
     $(".doubles .rankings").html(doublesRankings);
-  }
+  };
   const rankingsEvents = () => {
     // Show stats
     $(".ranking").on("click", function() {
@@ -563,6 +570,7 @@
           doubles_rank: localData.playersByKey[thisKey].doubles_rank,
           doubles_won: localData.playersByKey[thisKey].doubles_won,
           doubles_goals: localData.playersByKey[thisKey].doubles_goals,
+          doubles_points: localData.playersByKey[thisKey].doubles_points,
           gamesLost: i18n.app.statsPlayer.gamesLost,
           gamesPlayed: i18n.app.statsPlayer.gamesPlayed,
           gamesWon: i18n.app.statsPlayer.gamesWon,
@@ -677,634 +685,10 @@
       doubles.fadeIn();
     }
   };
-  function singlesRankingsUpdate() {
-    var singlesArray = localData.playersBySingles;
-    var singlesRankings = "";
-    var singlesTopRankings = "";
-    for (var i = 0; i < singlesArray.length; i++) {
-      if (singlesArray[i].status) {
-        var singlesLastMovement = singlesArray[i].singles_last_movement
-          ? singlesArray[i].singles_last_movement.toFixed(2)
-          : "";
-        var singlesPoints = singlesArray[i].singles_points
-          ? singlesArray[i].singles_points.toFixed(2)
-          : "";
-        if (i < 3) {
-          singlesTopRankings += tmpl("rankingsRow", {
-            key: singlesArray[i].key,
-            lastMovement: rankingMovementStyles(singlesLastMovement),
-            name: singlesArray[i].name,
-            points: singlesPoints,
-            rank: singlesArray[i].singles_rank,
-            type: "singles"
-          });
-        } else {
-          singlesRankings += tmpl("rankingsRow", {
-            key: singlesArray[i].key,
-            lastMovement: rankingMovementStyles(singlesLastMovement),
-            name: singlesArray[i].name,
-            points: singlesPoints,
-            rank: singlesArray[i].singles_rank,
-            type: "singles"
-          });
-        }
-      }
-    }
-    $(".singles .top-rankings").html(singlesTopRankings);
-    $(".singles .rankings").html(singlesRankings);
-  }
+
   // ---------------------------------------------------
   // Scoring
-  // TODO add ability to add goals scored per person and also update how te points are  calculated here
-  // TODO go through scorring add adn finish changing var to const/let
   // ---------------------------------------------------
-  function scoringAdd() {
-    // Scores
-    const t1s = $(".t1-score").val();
-    const t2s = $(".t2-score").val();
-    if (logging) {
-      console.log("scores");
-      console.log(t1s);
-      console.log(t2s);
-      console.log("----");
-    }
-    // Players keys
-    const t1p1Key = $(".t1-players a.selected")
-      .first()
-      .data("id");
-    const t1p2Key = $(".t1-players a.selected")
-      .last()
-      .data("id");
-    const t2p1Key = $(".t2-players a.selected")
-      .first()
-      .data("id");
-    const t2p2Key = $(".t2-players a.selected")
-      .last()
-      .data("id");
-    if (logging) {
-      console.log("keys");
-      console.log(t1p1Key);
-      console.log(t1p2Key);
-      console.log(t2p1Key);
-      console.log(t2p2Key);
-      console.log("----");
-    }
-    // Check if this is a doubles match
-    let isDoubles = false;
-    if (t1p1Key !== t1p2Key) {
-      isDoubles = true;
-    }
-    if (logging) {
-      console.log("isDoubles");
-      console.log(isDoubles);
-      console.log("----");
-    }
-    // Team ranking points
-    let t1rp = localData.playersByKey[t1p1Key].singles_points;
-    let t2rp = localData.playersByKey[t2p1Key].singles_points;
-    if (isDoubles) {
-      t1rp =
-        [
-          localData.playersByKey[t1p1Key].doubles_points +
-            localData.playersByKey[t1p2Key].doubles_points
-        ] / 2;
-      t2rp =
-        [
-          localData.playersByKey[t2p1Key].doubles_points +
-            localData.playersByKey[t2p2Key].doubles_points
-        ] / 2;
-    }
-    if (logging) {
-      console.log("Team ranking points");
-      console.log(t1rp);
-      console.log(t2rp);
-      if (isDoubles) {
-        console.log(t1rp);
-        console.log(t2rp);
-      }
-      console.log("----");
-    }
-    // Game ranking points
-    const grp = [t1rp + t2rp] / 2;
-    if (logging) {
-      console.log("Game ranking points");
-      console.log(grp);
-      console.log("----");
-    }
-    // Team points
-    const t1p = grp + ([t1s - t2s] * 100) / Math.max(t1s, t2s);
-    const t2p = grp + ([t2s - t1s] * 100) / Math.max(t1s, t2s);
-    if (logging) {
-      console.log("Team points");
-      console.log(t1p);
-      console.log(t2p);
-      console.log("----");
-    }
-    // Player ranking points
-    let gameData = {
-      dt: Date.now(),
-      t1p1_points: t1p,
-      t2p1_points: t2p
-    };
-    if (logging) {
-      console.log("Singles Player ranking points");
-      console.log(gameData);
-      console.log("----");
-    }
-    if (isDoubles) {
-      const t1p1rp =
-        t1p +
-        [
-          localData.playersByKey[t1p1Key].doubles_points -
-            localData.playersByKey[t1p2Key].doubles_points
-        ] /
-          2;
-      const t1p2rp = 2 * t1p - t1p1rp;
-      const t2p1rp =
-        t2p +
-        [
-          localData.playersByKey[t2p1Key].doubles_points -
-            localData.playersByKey[t2p2Key].doubles_points
-        ] /
-          2;
-      const t2p2rp = 2 * t2p - t2p1rp;
-      gameData = {
-        dt: Date.now(),
-        t1p1_points: t1p1rp,
-        t1p2_points: t1p2rp,
-        t2p1_points: t2p1rp,
-        t2p2_points: t2p2rp
-      };
-      if (logging) {
-        console.log("Doubles Player ranking points");
-        console.log(t1p1rp);
-        console.log(t1p2rp);
-        console.log(t2p1rp);
-        console.log(t2p2rp);
-        console.log(gameData);
-        console.log("----");
-      }
-    }
-    // Save "games" data
-    const newGameKey = fbdb
-      .ref()
-      .child("games")
-      .push().key;
-    const dbGames = fbdb.ref("/games/" + newGameKey);
-    dbGames.set(gameData).catch(function(error) {
-      console.log("Failed to add new game");
-    });
-    if (logging) {
-      console.log('Save "games" data');
-      console.log(newGameKey);
-      console.log("----");
-    }
-    // Reset last movements
-    if (isDoubles) {
-      scoringResetLastMovements("doubles_last_movement", {
-        doubles_last_movement: ""
-      });
-    } else {
-      scoringResetLastMovements("singles_last_movement", {
-        singles_last_movement: ""
-      });
-    }
-    if (logging) {
-      console.log("Reset last movements");
-      console.log("----");
-    }
-    // Decay factor
-    const decay_factor = 10;
-    // New player ranking points
-    if (isDoubles) {
-      // New doubles player points
-      const t1p1PointsNew =
-        (localData.playersByKey[t1p1Key].doubles_points / decay_factor) *
-          [decay_factor - 1] +
-        t1p1rp / decay_factor;
-      const t1p2PointsNew =
-        (localData.playersByKey[t1p2Key].doubles_points / decay_factor) *
-          [decay_factor - 1] +
-        t1p2rp / decay_factor;
-      const t2p1PointsNew =
-        (localData.playersByKey[t2p1Key].doubles_points / decay_factor) *
-          [decay_factor - 1] +
-        t2p1rp / decay_factor;
-      const t2p2PointsNew =
-        (localData.playersByKey[t2p2Key].doubles_points / decay_factor) *
-          [decay_factor - 1] +
-        t2p2rp / decay_factor;
-      // Update last movements
-      const t1p1LastMovement =
-        t1p1PointsNew - localData.playersByKey[t1p1Key].doubles_points;
-      const t1p2LastMovement =
-        t1p2PointsNew - localData.playersByKey[t1p2Key].doubles_points;
-      const t2p1LastMovement =
-        t2p1PointsNew - localData.playersByKey[t2p1Key].doubles_points;
-      const t2p2LastMovement =
-        t2p2PointsNew - localData.playersByKey[t2p2Key].doubles_points;
-      // Updates games won/lost
-      let t1p1GamesLost = localData.playersByKey[t1p1Key].singles_lost;
-      let t1p1GamesWon = localData.playersByKey[t1p1Key].singles_won;
-      let t1p2GamesLost = localData.playersByKey[t1p2Key].singles_lost;
-      let t1p2GamesWon = localData.playersByKey[t1p2Key].singles_won;
-      let t2p1GamesLost = localData.playersByKey[t2p1Key].singles_lost;
-      let t2p1GamesWon = localData.playersByKey[t2p1Key].singles_won;
-      let t2p2GamesLost = localData.playersByKey[t2p2Key].singles_lost;
-      let t2p2GamesWon = localData.playersByKey[t2p2Key].singles_won;
-      let t1Won = false;
-      let t2Won = false;
-      if (parseInt(t1s) > parseInt(t2s)) {
-        t1Won = true;
-        t1p1GamesWon += 1;
-        t1p2GamesWon += 1;
-        t2p1GamesLost += 1;
-        t2p2GamesLost += 1;
-      } else {
-        t2Won = true;
-        t2p1GamesWon += 1;
-        t2p2GamesWon += 1;
-        t1p1GamesLost += 1;
-        t1p2GamesLost += 1;
-      }
-      // Cache last game
-      lastGame.players = {
-        type: "doubles",
-        scores: [
-          {
-            player: "t1p1",
-            key: t1p1Key,
-            pointsNew: t1p1PointsNew,
-            lastMovement: t1p1LastMovement,
-            gamesLost: t1p1GamesLost,
-            gamesWon: t1p1GamesWon,
-            newGameKey: newGameKey,
-            t1p1Key: t1p1Key,
-            t1p2Key: t1p2Key,
-            t2p1Key: t2p1Key,
-            t2p2Key: t2p2Key,
-            t1s: t1s,
-            t2s: t2s,
-            won: t1Won
-          },
-          {
-            player: "t1p2",
-            key: t1p2Key,
-            pointsNew: t1p2PointsNew,
-            lastMovement: t1p2LastMovement,
-            gamesLost: t1p2GamesLost,
-            gamesWon: t1p2GamesWon,
-            newGameKey: newGameKey,
-            t1p1Key: t1p1Key,
-            t1p2Key: t1p2Key,
-            t2p1Key: t2p1Key,
-            t2p2Key: t2p2Key,
-            t1s: t1s,
-            t2s: t2s,
-            won: t1Won
-          },
-          {
-            player: "t2p1",
-            key: t2p1Key,
-            pointsNew: t2p1PointsNew,
-            lastMovement: t2p1LastMovement,
-            gamesLost: t2p1GamesLost,
-            gamesWon: t2p1GamesWon,
-            newGameKey: newGameKey,
-            t1p1Key: t1p1Key,
-            t1p2Key: t1p2Key,
-            t2p1Key: t2p1Key,
-            t2p2Key: t2p2Key,
-            t1s: t1s,
-            t2s: t2s,
-            won: t2Won
-          },
-          {
-            player: "t2p2",
-            key: t2p2Key,
-            pointsNew: t2p2PointsNew,
-            lastMovement: t2p2LastMovement,
-            gamesLost: t2p2GamesLost,
-            gamesWon: t2p2GamesWon,
-            newGameKey: newGameKey,
-            t1p1Key: t1p1Key,
-            t1p2Key: t1p2Key,
-            t2p1Key: t2p1Key,
-            t2p2Key: t2p2Key,
-            t1s: t1s,
-            t2s: t2s,
-            won: t2Won
-          }
-        ]
-      };
-      if (logging) {
-        console.log("Doubles save score");
-        console.log([
-          "t1p1",
-          "doubles",
-          t1p1Key,
-          t1p1PointsNew,
-          t1p1LastMovement,
-          t1p1GamesLost,
-          t1p1GamesWon,
-          newGameKey,
-          t1p1Key,
-          t1p2Key,
-          t2p1Key,
-          t2p2Key,
-          t1s,
-          t2s,
-          t1Won
-        ]);
-        console.log([
-          "t1p2",
-          "doubles",
-          t1p2Key,
-          t1p2PointsNew,
-          t1p2LastMovement,
-          t1p2GamesLost,
-          t1p2GamesWon,
-          newGameKey,
-          t1p1Key,
-          t1p2Key,
-          t2p1Key,
-          t2p2Key,
-          t1s,
-          t2s,
-          t1Won
-        ]);
-        console.log([
-          "t2p1",
-          "doubles",
-          t2p1Key,
-          t2p1PointsNew,
-          t2p1LastMovement,
-          t2p1GamesLost,
-          t2p1GamesWon,
-          newGameKey,
-          t1p1Key,
-          t1p2Key,
-          t2p1Key,
-          t2p2Key,
-          t1s,
-          t2s,
-          t2Won
-        ]);
-        console.log([
-          "t2p2",
-          "doubles",
-          t2p2Key,
-          t2p2PointsNew,
-          t2p2LastMovement,
-          t2p2GamesLost,
-          t2p2GamesWon,
-          newGameKey,
-          t1p1Key,
-          t1p2Key,
-          t2p1Key,
-          t2p2Key,
-          t1s,
-          t2s,
-          t2Won
-        ]);
-        console.log("----");
-      }
-      // Save "players", and "players_game" data
-      scoringSave(
-        "t1p1",
-        "doubles",
-        t1p1Key,
-        t1p1PointsNew,
-        t1p1LastMovement,
-        t1p1GamesLost,
-        t1p1GamesWon,
-        newGameKey,
-        t1p1Key,
-        t1p2Key,
-        t2p1Key,
-        t2p2Key,
-        t1s,
-        t2s,
-        t1Won
-      );
-      scoringSave(
-        "t1p2",
-        "doubles",
-        t1p2Key,
-        t1p2PointsNew,
-        t1p2LastMovement,
-        t1p2GamesLost,
-        t1p2GamesWon,
-        newGameKey,
-        t1p1Key,
-        t1p2Key,
-        t2p1Key,
-        t2p2Key,
-        t1s,
-        t2s,
-        t1Won
-      );
-      scoringSave(
-        "t2p1",
-        "doubles",
-        t2p1Key,
-        t2p1PointsNew,
-        t2p1LastMovement,
-        t2p1GamesLost,
-        t2p1GamesWon,
-        newGameKey,
-        t1p1Key,
-        t1p2Key,
-        t2p1Key,
-        t2p2Key,
-        t1s,
-        t2s,
-        t2Won
-      );
-      scoringSave(
-        "t2p2",
-        "doubles",
-        t2p2Key,
-        t2p2PointsNew,
-        t2p2LastMovement,
-        t2p2GamesLost,
-        t2p2GamesWon,
-        newGameKey,
-        t1p1Key,
-        t1p2Key,
-        t2p1Key,
-        t2p2Key,
-        t1s,
-        t2s,
-        t2Won
-      );
-      // Show doubles rankings
-      rankingToggle("doubles");
-    } else {
-      // Singles
-      // New singles player points
-      var t1p1PointsNew =
-        (t1rp / decay_factor) * [decay_factor - 1] + t1p / decay_factor;
-      var t2p1PointsNew =
-        (t2rp / decay_factor) * [decay_factor - 1] + t2p / decay_factor;
-      // Update last movements
-      var t1p1LastMovement = t1p1PointsNew - t1rp;
-      var t2p1LastMovement = t2p1PointsNew - t2rp;
-      // Updates games won/lost
-      var t1p1GamesLost = localData.playersByKey[t1p1Key].singles_lost;
-      var t1p1GamesWon = localData.playersByKey[t1p1Key].singles_won;
-      var t2p1GamesLost = localData.playersByKey[t2p1Key].singles_lost;
-      var t2p1GamesWon = localData.playersByKey[t2p1Key].singles_won;
-      var t1Won = false;
-      var t2Won = false;
-      if (parseInt(t1s) > parseInt(t2s)) {
-        t1Won = true;
-        t1p1GamesWon += 1;
-        t2p1GamesLost += 1;
-      } else {
-        t2Won = true;
-        t1p1GamesLost += 1;
-        t2p1GamesWon += 1;
-      }
-      // Cache last game
-      lastGame.players = {
-        type: "singles",
-        scores: [
-          {
-            player: "t1p1",
-            key: t1p1Key,
-            pointsNew: t1p1PointsNew,
-            lastMovement: t1p1LastMovement,
-            gamesLost: t1p1GamesLost,
-            gamesWon: t1p1GamesWon,
-            newGameKey: newGameKey,
-            t1p1Key: t1p1Key,
-            t1p2Key: "",
-            t2p1Key: t2p1Key,
-            t2p2Key: "",
-            t1s: t1s,
-            t2s: t2s,
-            won: t1Won
-          },
-          {
-            player: "t2p1",
-            key: t2p1Key,
-            pointsNew: t2p1PointsNew,
-            lastMovement: t2p1LastMovement,
-            gamesLost: t2p1GamesLost,
-            gamesWon: t2p1GamesWon,
-            newGameKey: newGameKey,
-            t1p1Key: t1p1Key,
-            t1p2Key: "",
-            t2p1Key: t2p1Key,
-            t2p2Key: "",
-            t1s: t1s,
-            t2s: t2s,
-            won: t2Won
-          }
-        ]
-      };
-      // Save "players", and "players_game" data
-      scoringSave(
-        "t1p1",
-        "singles",
-        t1p1Key,
-        t1p1PointsNew,
-        t1p1LastMovement,
-        t1p1GamesLost,
-        t1p1GamesWon,
-        newGameKey,
-        t1p1Key,
-        "",
-        t2p1Key,
-        "",
-        t1s,
-        t2s,
-        t1Won
-      );
-      scoringSave(
-        "t2p1",
-        "singles",
-        t2p1Key,
-        t2p1PointsNew,
-        t2p1LastMovement,
-        t2p1GamesLost,
-        t2p1GamesWon,
-        newGameKey,
-        t1p1Key,
-        "",
-        t2p1Key,
-        "",
-        t1s,
-        t2s,
-        t2Won
-      );
-      // Show singles rankings
-      rankingToggle("singles");
-    }
-    // Confirmation --------------------
-    // Close modal
-    modalHide();
-    // Add success message
-    messageShow(
-      "success",
-      i18n.app.messages.gameAdded +
-        '! <a href="#" class="undo">' +
-        i18n.app.messages.undo +
-        "</a>",
-      false
-    );
-    initUndo();
-  }
-  function scoringEvents() {
-    $(".score-add")
-      .off("submit")
-      .on("submit", function() {
-        if (scoringValidation()) {
-          scoringAdd();
-        }
-        return false;
-      });
-    // De-activate selected user on other team to avoid selecting the same player on both teams
-    $(".t1-players a").on("click", function() {
-      var thisKey = $(this).data("id");
-      var isChecked = $(this).hasClass("selected");
-      $('.t2-players a[data-id="' + thisKey + '"]').toggleClass(
-        "is-disabled",
-        isChecked
-      );
-    });
-    $(".t2-players a").on("click", function() {
-      var thisKey = $(this).data("id");
-      var isChecked = $(this).hasClass("selected");
-      $('.t1-players a[data-id="' + thisKey + '"]').toggleClass(
-        "is-disabled",
-        isChecked
-      );
-    });
-    // Decrements, Increment
-    $(".decrement a, .increment a")
-      .off("click")
-      .on("click", function() {
-        var $this = $(this);
-        var amount = $this.data("amount");
-        var team = $this.data("team");
-        var teamScore = $(".t" + team + "-score");
-        var teamScoreValue = parseInt(teamScore.val());
-        var teamScoreValueNew =
-          $this.data("type") === "+"
-            ? teamScoreValue + parseInt(amount)
-            : teamScoreValue - parseInt(amount);
-        if (teamScoreValueNew < 0) {
-          teamScoreValueNew = 0;
-        }
-        if (teamScoreValueNew > 40) {
-          teamScoreValueNew = 40;
-        }
-        teamScore.val(teamScoreValueNew);
-        return false;
-      });
-  }
   function scoringPopulatePlayerSelection() {
     var playersArray = localData.playersArray;
     var playerScoresUi = "";
@@ -1322,170 +706,7 @@
       scoringEvents();
     }, 300);
   }
-  function scoringResetLastMovements(type, obj) {
-    var playersArray = localData.playersArray;
-    for (var i = 0; i < playersArray.length; i++) {
-      var key = playersArray[i].key;
-      if (playersArray[i][type]) {
-        fbdb
-          .ref("/players/" + key)
-          .update(obj)
-          .catch(function(error) {
-            console.log("Failed to reset last movement");
-          });
-      }
-    }
-  }
-  function scoringSave(
-    player,
-    type,
-    key,
-    points,
-    movement,
-    lost,
-    won,
-    gameKey,
-    t1p1Key,
-    t1p2Key,
-    t2p1Key,
-    t2p2Key,
-    t1s,
-    t2s,
-    wonGame
-  ) {
-    // Save "players" data
-    const playersData = {};
-    playersData[type + "_points"] = points;
-    playersData[type + "_last_movement"] = movement;
-    playersData[type + "_lost"] = lost;
-    playersData[type + "_won"] = won;
-    if (logging) {
-      console.log('Save "players" data');
-      console.log(playersData);
-      console.log("----");
-    }
-    fbdb
-      .ref("/players/" + key)
-      .update(playersData)
-      .catch(function(error) {
-        console.log("Failed to update players data");
-      });
-    // Save "players_game" data
-    const playersGameData = {
-      dt: Date.now(),
-      game: gameKey,
-      player: key,
-      t1p1: t1p1Key,
-      t2p1: t2p1Key,
-      t1_points: t1s,
-      t2_points: t2s,
-      won: wonGame
-    };
-    if ("" !== t1p2Key && "" !== t2p2Key) {
-      playersGameData.t1p2 = t1p2Key;
-      playersGameData.t2p2 = t2p2Key;
-    }
-    if (logging) {
-      console.log('Save "players_game" data');
-      console.log(playersGameData);
-      console.log("----");
-    }
-    const newPlayersGameKey = fbdb
-      .ref()
-      .child("playersgame" + key)
-      .push().key;
-    lastGame.game[player] = newPlayersGameKey;
-    if (logging) {
-      console.log("last game cache");
-      console.log(lastGame);
-      console.log("----");
-    }
-    const dbPlayersGame = fbdb.ref(
-      "/playersgame/" + key + "/" + newPlayersGameKey
-    );
-    dbPlayersGame.set(playersGameData).catch(function(error) {
-      console.log("Failed to add new players game");
-    });
-  }
-  function scoringUndo(player, type, key, points, movement, lost, won) {
-    // Update player stats
-    var playersData = {};
-    playersData[type + "_points"] = points;
-    playersData[type + "_last_movement"] = movement;
-    playersData[type + "_lost"] = lost;
-    playersData[type + "_won"] = won;
-    fbdb
-      .ref("/players/" + key)
-      .update(playersData)
-      .catch(function(error) {
-        console.log("Failed to update players data");
-      });
-    // Remove Players Games
-    fbdb
-      .ref("/playersgame/" + key + "/" + lastGame.game[player])
-      .remove()
-      .catch(function(error) {
-        console.log("Failed to undo players game");
-      });
-  }
-  function scoringValidation() {
-    var t1Count = $(".t1 a.selected").length;
-    var t2Count = $(".t2 a.selected").length;
 
-    // Valid integer for both scores
-    if ($(".t1-score").val() === "" || $(".t2-score").val() === "") {
-      messageShow("error", i18n.app.messages.scoreBoth, true);
-      return false;
-    }
-
-    // At least 1 name is checked per team
-    if (!$(".t1-players a").hasClass("selected")) {
-      messageShow("error", i18n.app.messages.onePlayer, true);
-      return false;
-    }
-    if (!$(".t2-players a").hasClass("selected")) {
-      messageShow("error", i18n.app.messages.onePlayer, true);
-      return false;
-    }
-
-    // No more than 2 names checked per team
-    if (t1Count > 2) {
-      messageShow("error", i18n.app.messages.maxTwo, true);
-      return false;
-    }
-    if (t2Count > 2) {
-      messageShow("error", i18n.app.messages.maxTwo, true);
-      return false;
-    }
-
-    // Same player(s) are not selected on both teams
-    $(".t1 a.selected").each(function(index) {
-      if (
-        $('.t2 a[data-id="' + $(this).data("id") + '"]').hasClass("selected")
-      ) {
-        messageShow("error", i18n.app.messages.bothTeams, true);
-        return false;
-      }
-    });
-
-    // Same number of players are selected on both teams
-    if (t1Count !== t2Count) {
-      messageShow("error", i18n.app.messages.bothTeamsNumber, true);
-      return false;
-    }
-
-    // No ties
-    if ($(".t1-score").val() === $(".t2-score").val()) {
-      messageShow(
-        "error",
-        i18n.app.messages.keepPlaying + "! " + i18n.app.messages.noTies + ".",
-        true
-      );
-      return false;
-    }
-
-    return true;
-  }
   // ---------------------------------------------------
   // Sidebar
   // ---------------------------------------------------
